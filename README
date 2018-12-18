@@ -1,0 +1,66 @@
+
+State Nicolae - 323CC - Tema1APD
+
+				Detalii de implementare:
+		Coada
+	- Pentru a determina coordonatele cozilor am iterat prin fiecare
+	sarpe plecand din cap si retinand pozitia anterioara, pentru a 
+	tine cont de numarul de vecini descoperiti.
+	Lipsa intalnirii unor vecini noi determina sfarsitul iteratiei
+		Mutarile
+	- La mutarea sarpelui, retin peultima pozitie pentru a face tranzitia
+	cozii, urmand ca vechea pozitie sa fie marcata cu 0 pe harta.
+	Pentru deplasarea capului, am tinut cont de directia de deplasare si
+	am incrementat/decrementat linia/coloana.
+		Coliziune
+	- Pentru detectarea coliziunii, am retinut ce encoding se afla in
+	urmatoarea pozitie a sarpelui, pentru a reusi sa o refac in urma
+	unei coliziunii. Daca unul dintre serpi se muta intr-o pozitie ocupata,
+	setez variabila de coliziune si nu intrerup mutarile.
+	Daca se detecteaza coliziune, toti serpii se vor da inapoi cu un pas.
+
+	- Am adaugat in structura snakes mai multe campuri pentru coliziune si
+	pozitii viitoare/anterioare ale capului si cozii, pentru a facilita
+	implementarea si paralelizarea.
+	
+
+					Testare:
+	- Testarea algorimului serial a fost realizata local, iar dupa adaugarea
+	instructiunilor de paralelizare, am utilizat clusterul facultatii
+	(dupa conectarea pe fep.grid.pub.ro) .
+	Am utilizat coada ibm-nehalem.q.
+
+	- Am creat un script care seteaza variabila de mediu OMP_NUM_THREADS la
+	1,2,4,6 si 8 threaduri si ruleaza executabilul dupa fiecare setare.
+	Scriptul foloseste ca fisier de intrare big_input din testele oferite
+	si iesirile au fost comparate folosind comanda "diff" cu fisierul
+	big_output, dupa 20.000 de rulari.
+
+
+					Rezultate:
+	- In urma executiei testului, am obtinut urmatoarele rezultate
+	(pentru 1,2,4,6 si 8 threaduri) si am observat o imbunatatire
+	a timpilor de executie (scalabilitate):
+
+	5.573408481
+	2.791713966
+	1.614717836
+	1.184436386
+	0.985087863
+
+	- Modificand in script numarul de pasi la 500, am obtinut:
+
+	0.148049578
+	0.117039574
+	0.048596169
+	0.044520607
+	0.027513681
+
+	- Pentru testul "input2", folosind 10 pasi, am observat ca este ineficienta
+	paralelizarea:
+
+	0.000076881
+	0.000154162
+	0.000275406
+	0.000363237
+	0.000381904
